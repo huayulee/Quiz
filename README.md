@@ -1,4 +1,4 @@
-# Quiz: 交易處理的 POC
+# Quiz: 交易處理的測驗題
 
 這個 sample code, 用 ```MainAccount``` 這個類別，模擬銀行的帳戶。提供餘額查詢 ```GetBalance()```, 與轉入轉出 ```Transfer(long amount)``` 的功能。
 衍生的類別 ```NetworkAccount``` 提供一模一樣的功能，唯一的差別是 ```GetBalance()``` 與 ```Transfer()``` 有一定的機率 (5%) 會在執行的過程中擲出例外
@@ -17,7 +17,7 @@
 程式會隨機 (4 ~ -5) 在兩個帳戶之間進行轉帳。每次轉帳，會從第一個帳戶扣除 N 元，同時在第二個帳號存入 N 元。不斷在這兩個帳號之間隨機的轉帳 10000 次，
 預期的結果是兩個帳號的總額應該跟程式一開始一樣 (1000 + 1000 = 2000)。
 
-不過這個測驗要求用 NetworkAccount, 因此在 GetBalance() 與 Transfer() 都伴隨著隨機發生 NetworkException 的潛在問題。請確保無論在甚麼狀態下，交易
+不過這個測驗要求用 ```NetworkAccount```, 因此在 ```GetBalance()``` 與 ```Transfer()``` 都伴隨著隨機發生 ```NetworkException``` 的潛在問題。請確保無論在甚麼狀態下，交易
 都必須正確的執行完畢。若無法成功執行的話，則必須取消交易。不能發生第一個帳號被扣款，而第二個帳號卻沒有成功的儲值問題。
 
 這個範例不需考慮併行交易，因此交易執行後可查詢餘額，來確認先前的交易是否正確。
@@ -26,4 +26,4 @@
 
 請勿修改整個 project 除了 MainAccount.cs 以外的任何程式。
 
-MainAccount 也請勿修改任何 class 的 public 定義。你可以修改 GetBalance() 與 static Transfer() 的實作，也可以任意新增 private method / property。
+```MainAccount``` 也請勿修改任何 class 的 public 定義。你可以修改 ```GetBalance()``` 與 ```static Transfer()``` 的實作，也可以任意新增 private method / property。
