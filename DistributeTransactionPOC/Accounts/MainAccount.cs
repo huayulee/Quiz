@@ -24,11 +24,32 @@ namespace DistributeTransactionPOC.Accounts
         public virtual long Transfer(long value)
         {
             //
-            // TODO: 確保並行的交易是正確的
+            // QUIZ: 確保並行的交易是正確的
             //
 
             if (this._balance + value < 0) throw new BalanceNotEnoughException();
             return (this._balance += value);
+
+            // throw new NotImplementedException();
+        }
+
+
+        public static bool Transfer(MainAccount from, MainAccount to, long transferAmount)
+        {
+            //
+            // QUIZ: 確保轉帳的過程全部成功，或是全部取消。不能有一方扣款，另一方卻沒取得款項的問題。
+            //       即使在不可靠的環境下，仍應該要能順利完成交易。
+            //
+
+            try
+            {
+                from.Transfer(transferAmount);
+                to.Transfer(0 - transferAmount);
+            }
+            catch { }
+            return true;
+
+            // throw new NotImplementedException();
         }
     }
 

@@ -16,9 +16,6 @@ namespace DistributeTransactionPOC
             (new Program()).ConcurrentTransaction();
         }
 
-
-
-
         public void DistributedTransaction()
         {
             long init1 = 1000;
@@ -32,24 +29,15 @@ namespace DistributeTransactionPOC
             {
                 int transfer = _rnd.Next(10) - 5;
 
-                //
-                // QUIZ: 確保不可靠的環境下，交易能正確地進行
-                //
-                try
-                {
-                    acc1.Transfer(transfer);
-                    acc2.Transfer(0 - transfer);
-                }
-                catch { }
+                MainAccount.Transfer(acc1, acc2, transfer);
             }
-
 
             Console.WriteLine($"Expected: {init1 + init2}");
 
-
             while (true) try { init1 = acc1.GetBalance(); break; } catch { }
             while (true) try { init2 = acc2.GetBalance(); break; } catch { }
-            Console.WriteLine($"Actual: {init1 + init2}");
+            Console.WriteLine($"Actual:   {init1 + init2}");
+            Console.WriteLine();
         }
 
 
@@ -70,21 +58,9 @@ namespace DistributeTransactionPOC
 
             foreach (Thread t in threads) t.Join();
 
-            Console.WriteLine($"Expected Value: {concurrent_threads * repeat_count}, Actual Value: {q.GetBalance()}");
+            Console.WriteLine($"Expected Value: {concurrent_threads * repeat_count}");
+            Console.WriteLine($"Actual Value:   {q.GetBalance()}");
 
         }
-
-
-
-
-
-
-        
     }
-
-
-
-
-
-
 }
