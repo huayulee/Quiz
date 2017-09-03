@@ -47,34 +47,48 @@ namespace Quiz.Accounts.Test
         [TestMethod]
         public void DistributedTransactionTest()
         {
-            long init1 = 1000;
-            long init2 = 1000;
+            int account_count = 5;
+            long init_balance = 1000;
+            List<AccountBase> accounts = new List<AccountBase>();
 
-            NetworkAccount acc1 = new NetworkAccount(new MainAccount(1000));
-            NetworkAccount acc2 = new NetworkAccount(new MainAccount(1000));
+            // init account(s)
+            for (int i = 0; i < account_count; i++) accounts.Add(new NetworkAccount(new MainAccount(init_balance)));
+
             Random _rnd = new Random();
 
+            // execute transactions
             for (int i = 0; i < 100000; i++)
             {
-                int transfer = _rnd.Next(10) - 5;
+                // prepare transaction cmds
+                List<TransactionCmd> cmds = new List<TransactionCmd>();
+                long total_amount = 0;
+                for (int j = 0; j < (account_count - 1); j++)
+                {
+                    TransactionCmd current_tc = new TransactionCmd()
+                    {
+                        account = accounts[j],
+                        amount = _rnd.Next(10) - 5
+                    };
+                    total_amount += current_tc.amount;
+                    cmds.Add(current_tc);
+                }
+                cmds.Add(new TransactionCmd()
+                {
+                    account = accounts[accounts.Count - 1],
+                    amount = 0 - total_amount
+                });
 
-                AccountBase.ExecTransaction(
-                    new TransactionCmd() { account = acc1, amount = transfer },
-                    new TransactionCmd() { account = acc2, amount = 0 - transfer });
-
+                // execute transaction
+                AccountBase.ExecTransaction(cmds.ToArray());
             }
 
+            // check result
+            long total_balances = 0;
+            foreach (AccountBase a in accounts) total_balances += a.GetBalance();
+
             Assert.AreEqual<long>(
-                init1+init2,
-                acc1.GetBalance() + acc2.GetBalance());
-
-
-            Console.WriteLine($"Expected: {init1 + init2}");
-
-            while (true) try { init1 = acc1.GetBalance(); break; } catch { }
-            while (true) try { init2 = acc2.GetBalance(); break; } catch { }
-            Console.WriteLine($"Actual:   {init1 + init2}");
-            Console.WriteLine();
+                account_count * init_balance,
+                total_balances);
         }
     }
 }
