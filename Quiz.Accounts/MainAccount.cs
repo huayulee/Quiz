@@ -35,7 +35,18 @@ namespace Quiz.Accounts
             // QUIZ: 確保並行的交易是正確的
             //
 
-            throw new NotImplementedException();
+            //
+            // NOTE: concurrent transaction 的關鍵是 lock, 這個範例只要求本機, 因此只需要用到本機範圍的鎖定機制即可。
+            // 如果你無意間發現這個 commit, 歡迎參考我的實作版本。不過在你要抄這份 code 前請先想清楚，在面試時你必須要能
+            // 清楚解釋你寫的 code 才行!
+            //
+            // Andrew Wu
+            //
+            lock (this)
+            {
+                if (this._balance + value < 0) throw new BalanceNotEnoughException();
+                return (this._balance += value);
+            }
         }
     }
 }
