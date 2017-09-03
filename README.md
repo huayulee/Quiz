@@ -12,6 +12,8 @@
 程式會產生 10000 個執行緒，同時對同一個帳號進行 10000 次存款的交易 (每次存 1 元)。預期的結果應該是執行結束後帳號應該有 10000 x 10000 = 100000000 元。
 若無法妥善處理並行的問題，則餘額會有落差。
 
+請改寫 /Quiz.Accounts/MainAccount.cs 的 ```long Transfer(long value)```, 直到通過測試為止。
+
 # 測驗2 - 網路轉帳交易的正確性
 
 程式會隨機 (4 ~ -5) 在兩個帳戶之間進行轉帳。每次轉帳，會從第一個帳戶扣除 N 元，同時在第二個帳號存入 N 元。不斷在這兩個帳號之間隨機的轉帳 10000 次，
@@ -21,9 +23,12 @@
 都必須正確的執行完畢。若無法成功執行的話，則必須取消交易。不能發生第一個帳號被扣款，而第二個帳號卻沒有成功的儲值問題。
 
 這個範例不需考慮併行交易，因此交易執行後可查詢餘額，來確認先前的交易是否正確。
+請改寫 /Quiz.Accounts/AccountBase.cs 的 ```static bool ExecTransaction(params TransactionCmd[] transes)```, 直到通過測試為止。
+
 
 # 測驗方式
 
-請勿修改整個 project 除了 MainAccount.cs 以外的任何程式。
+請勿修改整個 project 除了上述範圍之外的任何程式。
+請勿對 test project 做任何修改。實際驗證時我們可能會用另一套 test project 來驗證您的 code
 
-```MainAccount``` 也請勿修改任何 class 的 public 定義。你可以修改 ```GetBalance()``` 與 ```static Transfer()``` 的實作，也可以任意新增 private method / property。
+測試方式，會在具備 4 cores 的 windows PC, 用 visual studio 2015 開啟專案，執行三次 unit test (Run All), 三次都全數通過 (綠燈) 算是測試完成。
