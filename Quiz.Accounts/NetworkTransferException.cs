@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DistributeTransactionPOC.Accounts
+namespace Quiz.Accounts
 {
-    public class NetworkException : Exception
+    public class NetworkTransferException : Exception
     {
     }
 }

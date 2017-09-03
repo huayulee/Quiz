@@ -1,4 +1,5 @@
-﻿using DistributeTransactionPOC.Accounts;
+﻿//using DistributeTransactionPOC.Accounts;
+using Quiz.Accounts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,23 +22,22 @@ namespace DistributeTransactionPOC
             long init1 = 1000;
             long init2 = 1000;
 
-            NetworkMainAccount acc1 = new NetworkMainAccount(1000);
-            NetworkMainAccount acc2 = new NetworkMainAccount(1000);
+            NetworkAccount acc1 = new NetworkAccount(new MainAccount(1000));
+            NetworkAccount acc2 = new NetworkAccount(new MainAccount(1000));
             Random _rnd = new Random();
 
             for (int i = 0; i < 100000; i++)
             {
                 int transfer = _rnd.Next(10) - 5;
 
-                MainAccount.Transfer(acc1, acc2, transfer);
+                //MainAccount.Transfer(acc1, acc2, transfer);
+                AccountBase.ExecTransaction(
+                    new TransactionCmd() { account = acc1, amount = transfer },
+                    new TransactionCmd() { account = acc2, amount = 0 - transfer });
             }
 
             Console.WriteLine($"Expected: {init1 + init2}");
-
-            while (true) try { init1 = acc1.GetBalance(); break; } catch { }
-            while (true) try { init2 = acc2.GetBalance(); break; } catch { }
-            Console.WriteLine($"Actual:   {init1 + init2}");
-            Console.WriteLine();
+            Console.WriteLine($"Actual: {acc1.GetBalance() + acc2.GetBalance()}");
         }
 
 

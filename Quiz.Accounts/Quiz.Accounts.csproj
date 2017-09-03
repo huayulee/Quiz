@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8F04FB81-52F8-46A1-AF23-7F6ED9AE41C6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{069C9A49-F6B1-4088-84E5-5BA92F1A1BAE}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DistributeTransactionPOC</RootNamespace>
-    <AssemblyName>DistributeTransactionPOC</AssemblyName>
+    <RootNamespace>Quiz.Accounts</RootNamespace>
+    <AssemblyName>Quiz.Accounts</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,17 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="AccountBase.cs" />
+    <Compile Include="BalanceNotEnoughException.cs" />
+    <Compile Include="MainAccount.cs" />
+    <Compile Include="NetworkAccount.cs" />
+    <Compile Include="NetworkTransferException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Quiz.Accounts\Quiz.Accounts.csproj">
-      <Project>{069c9a49-f6b1-4088-84e5-5ba92f1a1bae}</Project>
-      <Name>Quiz.Accounts</Name>
-    </ProjectReference>
+    <Compile Include="TransactionCmd.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
