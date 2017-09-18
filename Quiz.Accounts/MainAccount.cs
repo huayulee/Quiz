@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Quiz.Accounts
 {
 
-
     public class MainAccount : AccountBase
     {
-        private long _balance = 0;
+		private static object _objLock = new object();
+		private long _balance = 0;
 
         public MainAccount(long initBalance)
         {
             this._balance = initBalance;
         }
-
 
         public override long GetBalance()
         {
@@ -31,11 +31,16 @@ namespace Quiz.Accounts
         /// <returns>轉帳完成後的餘額</returns>
         public override long Transfer(long value)
         {
-            //
-            // QUIZ: 確保並行的交易是正確的
-            //
+			//
+			// QUIZ: 確保並行的交易是正確的
+			//
+			lock (_objLock)
+			{
+				this._balance += value;
+			}
 
-            throw new NotImplementedException();
-        }
-    }
+			return this.GetBalance();
+			//throw new NotImplementedException();
+		}
+	}
 }
